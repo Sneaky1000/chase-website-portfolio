@@ -57,6 +57,9 @@ typings/
 # dotenv environment variables file
 .env.local
 
+# Dev dependencies
+.env
+
 build/
 build-storybook/
 public/sitemap.xml
