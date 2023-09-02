@@ -91,7 +91,7 @@ export const Contact = () => {
               autoComplete="email"
               label="Your Email"
               type="email"
-              maxLength={512}
+              maxLength={255}
               {...email}
             />
             <Input
@@ -103,7 +103,7 @@ export const Contact = () => {
               autoComplete="off"
               label="Message"
               name="message"
-              maxLength={4096}
+              maxLength={4000}
               {...message}
             />
             <Button
