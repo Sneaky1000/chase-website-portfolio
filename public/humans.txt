@@ -3,14 +3,11 @@ __  __  __
  \ \/\ \
   \/  \/
 
-The humans.txt file explains the team, technology,
-and graphic assets behind this site humanstxt.org.
-
 _______________________________________________________________________________
 
-DESIGNER | デザイナー
+DESIGNER | デベロッパー
 
-Hamish Williams
+Chase Wheeler
 Hand crafted design & web development
 
 Design tools:
@@ -18,8 +15,8 @@ Figma
 Photoshop
 Blender
 
-twitter.com/hamishmw
-github.com/hamishmw
+twitter.com/Sneaky_1000
+github.com/Sneaky1000
 
 _______________________________________________________________________________
 

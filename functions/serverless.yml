@@ -14,7 +14,7 @@ functions:
     events:
       - cloudFront:
           eventType: origin-response
-          origin: https://d39w4n5rrkxzvy.cloudfront.net
+          AwsOrigin: https://d39w4n5rrkxzvy.cloudfront.net
   api:
     handler: index.handler
     architecture: arm64

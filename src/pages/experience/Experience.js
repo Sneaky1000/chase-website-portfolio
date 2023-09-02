@@ -16,7 +16,7 @@ import { formatDate } from 'utils/date';
 import { classes, cssProps } from 'utils/style';
 import styles from './Articles.module.css';
 
-const ArticlesPost = ({
+const ExperiencePost = ({
   slug,
   title,
   abstract,
@@ -65,7 +65,7 @@ const ArticlesPost = ({
           />
         </div>
       )}
-      <RouterLink href={`/articles/${slug}`} scroll={false}>
+      <RouterLink href={`/experience/${slug}`} scroll={false}>
         <a
           className={styles.postLink}
           onMouseEnter={handleMouseEnter}
@@ -84,7 +84,7 @@ const ArticlesPost = ({
             </Text>
             <div className={styles.postFooter}>
               <Button secondary iconHoverShift icon="chevronRight" as="div">
-                Read article
+                Read summary
               </Button>
               <Text className={styles.timecode} size="s">
                 {timecode}
@@ -141,7 +141,7 @@ const SkeletonPost = ({ index }) => {
   );
 };
 
-export const Articles = ({ posts, featured }) => {
+export const Experience = ({ posts, featured }) => {
   const { width } = useWindowSize();
   const singleColumnWidth = 1190;
   const isSingleColumn = width <= singleColumnWidth;
@@ -149,7 +149,7 @@ export const Articles = ({ posts, featured }) => {
   const postsHeader = (
     <header className={styles.header}>
       <Heading className={styles.heading} level={5} as="h1">
-        <DecoderText text="Latest articles" />
+        <DecoderText text="Latest professional experience" />
       </Heading>
       <Barcode />
     </header>
@@ -159,7 +159,7 @@ export const Articles = ({ posts, featured }) => {
     <div className={styles.list}>
       {!isSingleColumn && postsHeader}
       {posts.map(({ slug, ...post }, index) => (
-        <ArticlesPost key={slug} slug={slug} index={index} {...post} />
+        <ExperiencePost key={slug} slug={slug} index={index} {...post} />
       ))}
       {Array(2)
         .fill()
@@ -169,13 +169,13 @@ export const Articles = ({ posts, featured }) => {
     </div>
   );
 
-  const featuredPost = <ArticlesPost {...featured} />;
+  const featuredPost = <ExperiencePost {...featured} />;
 
   return (
     <article className={styles.articles}>
       <Meta
-        title="Articles"
-        description="A collection of technical design and development articles. May contain incoherent ramblings."
+        title="Experience"
+        description="A timeline/list of my professional work experience."
       />
       <Section className={styles.content}>
         {!isSingleColumn && (

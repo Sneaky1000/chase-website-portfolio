@@ -18,19 +18,22 @@ import styles from './Profile.module.css';
 const ProfileText = ({ visible, titleId }) => (
   <Fragment>
     <Heading className={styles.title} data-visible={visible} level={3} id={titleId}>
-      <DecoderText text="Hi there" start={visible} delay={500} />
+      <DecoderText text="Hello there" start={visible} delay={500} />
     </Heading>
     <Text className={styles.description} data-visible={visible} size="l" as="p">
-      I’m Hamish, currently I live in Sydney working as a senior product designer at{' '}
-      <Link href="https://www.qwilr.com">Qwilr</Link>. My projects include UX design, UI
-      animations, and icon illustration. Being comfortable with code allows me to rapidly
-      prototype and validate experiences. If you’re interested in the tools and software I
-      use check out my <Link href="/uses">uses page</Link>.
+      Hi, I’m Chase. I currently live in California working as a full stack developer at{' '}
+      <Link href="https://tkmkt.com/">TurnKey Marketing</Link>. I’m a self-driven, self-taught 
+      Full Stack Software Developer and aspiring Back-End Software Developer/DevOps Engineer 
+      that has worked with various languages, frameworks, databases, libraries, and other technologies to 
+      create efficient, scalable products.  If you’re interested in hiring an ever-growing software engineer 
+      to help build effective and resilient applications, feel free to{' '}<Link href='/contact/'>contact me</Link>.
     </Text>
     <Text className={styles.description} data-visible={visible} size="l" as="p">
-      In my spare time I like to practice Brazilian Jiu Jitsu, play video games, and{' '}
-      <Link href="/projects/volkihar-knight">make mods</Link>. I’m always down for hearing
-      about new projects, so feel free to drop me a line.
+    I’ve spent a lot of my free time developing and reinforcing my Golang and JavaScript skills. I’ve worked on 
+    countless projects—from APIs and bots to responsive websites and full stack applications—in order to hone my 
+    understanding of various languages. More recently, I’ve begun working with Python on my free time and have 
+    been expanding my knowledge in the areas of artificial intelligence, genetic algorithms, neural networks, 
+    and machine learning in general.
     </Text>
   </Fragment>
 );
@@ -84,7 +87,7 @@ export const Profile = ({ id, visible, sectionRef }) => {
                   placeholder={profileImgPlaceholder}
                   srcSet={[profileImg, profileImgLarge]}
                   sizes={`(max-width: ${media.mobile}px) 100vw, 480px`}
-                  alt="Me standing in front of the Torii on Miyajima, an island off the coast of Hiroshima in Japan"
+                  alt="Yours truly"
                 />
                 <svg
                   aria-hidden="true"

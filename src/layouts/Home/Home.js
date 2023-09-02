@@ -18,7 +18,7 @@ import { ProjectSummary } from 'layouts/Home/ProjectSummary';
 import { useEffect, useRef, useState } from 'react';
 import styles from './Home.module.css';
 
-const disciplines = ['Developer', 'Prototyper', 'Animator', 'Illustrator', 'Modder'];
+const disciplines = ['Engineer', 'Prototyper', 'Designer', 'Modder'];
 
 export const Home = () => {
   const [visibleSections, setVisibleSections] = useState([]);
@@ -68,9 +68,10 @@ export const Home = () => {
   return (
     <div className={styles.home}>
       <Meta
-        title="Designer + Developer"
-        description="Design portfolio of Hamish Williams — a product designer working on web & mobile
-          apps with a focus on motion, experience design, and accessibility."
+        title="Software Engineer"
+        description="Design portfolio of Chase Wheeler — a self-driven, self-taught Full Stack Software Developer 
+        and aspiring Back-end Software Developer/DevOps Engineer that has worked with various languages, frameworks, 
+        databases, and other technologies to create efficient, scalable products."
       />
       <Intro
         id="intro"
@@ -83,13 +84,13 @@ export const Home = () => {
         sectionRef={projectOne}
         visible={visibleSections.includes(projectOne.current)}
         index={1}
-        title="Designing the future of education"
-        description="Designing a platform to help educators build better online courseware"
+        title="JavaScript Autonomous Car"
+        description="A self-driving car simulation utilizing neural networks, genetic algorithms, and machine learning concepts."
         buttonText="View project"
-        buttonLink="/projects/smart-sparrow"
+        buttonLink="https://github.com/Sneaky1000/js-autonomous-car" // Replace with /projects/slice later
         model={{
           type: 'laptop',
-          alt: 'Smart Sparrow lesson builder',
+          alt: 'Autonomous car project made with JavaScript',
           textures: [
             {
               srcSet: [sprTexture, sprTextureLarge],
@@ -104,10 +105,10 @@ export const Home = () => {
         sectionRef={projectTwo}
         visible={visibleSections.includes(projectTwo.current)}
         index={2}
-        title="Video game progress tracking"
-        description="Design and development for a video game tracking app built in React Native"
+        title="Responsive websites"
+        description="Websites designed and built with various frameworks that look great on both PC and mobile devices."
         buttonText="View website"
-        buttonLink="https://gamestack.hamishw.com"
+        buttonLink="https://chase-wheeler-portfolio.netlify.app"
         model={{
           type: 'phone',
           alt: 'App login screen',
@@ -128,13 +129,13 @@ export const Home = () => {
         sectionRef={projectThree}
         visible={visibleSections.includes(projectThree.current)}
         index={3}
-        title="Biomedical image collaboration"
-        description="Increasing the amount of collaboration in Slice, an app for biomedical imaging"
+        title="JavaScript 3D Rotating Cube"
+        description="This is a small side project that rotates a 3D cube over a 2D canvas in JavaScript using math concepts."
         buttonText="View project"
-        buttonLink="/projects/slice"
+        buttonLink="https://github.com/Sneaky1000/rotating-cube" // Replace with /projects/slice later
         model={{
           type: 'laptop',
-          alt: 'Annotating a biomedical image in the Slice app',
+          alt: 'A rotating 3D cube over a 2D canvas made with JavaScript',
           textures: [
             {
               srcSet: [sliceTexture, sliceTextureLarge],

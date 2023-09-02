@@ -20,7 +20,7 @@ export const AppContext = createContext({});
 const repoPrompt = `
 __  __  __
 \u005C \u005C \u005C \u005C \u005C\u2215\n \u005C \u005C\u2215\u005C \u005C\n  \u005C\u2215  \u005C\u2215
-\n\nTaking a peek huh? Check out the source code: https://github.com/HamishMW/portfolio
+\n\nTaking a peek huh? Check out my LinkedIn if you have time! - https://www.linkedin.com/in/chase-wheeler1000/
 `;
 
 const App = ({ Component, pageProps }) => {
@@ -59,7 +59,7 @@ const App = ({ Component, pageProps }) => {
             </VisuallyHidden>
             <Navbar />
             <main className={styles.app} tabIndex={-1} id="MainContent">
-              <AnimatePresence exitBeforeEnter>
+              <AnimatePresence mode='wait'>
                 <m.div
                   key={route}
                   className={styles.page}

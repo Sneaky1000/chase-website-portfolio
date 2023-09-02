@@ -83,6 +83,7 @@
     background: rgb(var(--rgbAccent));
     transform: scaleX(0);
     transform-origin: right;
+    z-index: -1;
   }
 
   @media (--mediaUseMotion) {
@@ -212,6 +213,7 @@
     background: rgb(var(--rgbAccent));
     transform: scaleX(0) translateY(-1px);
     transform-origin: right;
+    z-index: -1;
   }
 
   @media (--mediaUseMotion) {

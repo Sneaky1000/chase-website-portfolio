@@ -25,7 +25,7 @@
 :root {
   --rgbBackground: 17 17 17;
   --rgbText: 255 255 255;
-  --rgbPrimary: 0 229 255;
+  --rgbPrimary: 220 20 60;
 
   font-family: Gotham, system-ui;
   background-color: rgb(var(--rgbBackground));

@@ -5,7 +5,7 @@ import readingTime from 'reading-time';
 import { POSTS_PATH, postFilePaths } from 'utils/mdx';
 import { formatTimecode } from 'utils/timecode';
 
-export { Articles as default } from './Articles';
+export { Experience as default } from './Experience';
 
 export function getStaticProps() {
   const allPosts = postFilePaths.map(filePath => {
