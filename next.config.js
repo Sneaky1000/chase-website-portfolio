@@ -1,7 +1,6 @@
 module.exports = {
   reactStrictMode: true,
   trailingSlash: true,
-  distDir: 'build',
   pageExtensions: ['page.js', 'api.js'],
   webpack(config, { isServer }) {
     // Run custom scripts
