@@ -1,8 +1,22 @@
 [build]
-publish = "out"
+command = "npm run build"
+publish = "/build"
+base = "/"
 
 [build.environment]
 NETLIFY_NEXT_PLUGIN_SKIP = "true"
 
+[[plugins]]
+package = "@netlify/plugin-functions-install-core"
+
+[[redirects]]
+from = "/api/*"
+to = "/.netlify/functions/:splat"
+status = 200
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
 [[plugins]]
 package = "@netlify/plugin-functions-install-core"
