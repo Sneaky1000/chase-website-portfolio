@@ -149,7 +149,7 @@ export const Experience = ({ posts, featured }) => {
   const postsHeader = (
     <header className={styles.header}>
       <Heading className={styles.heading} level={5} as="h1">
-        <DecoderText text="Latest professional experience" />
+        <DecoderText text="My Experience" />
       </Heading>
       <Barcode />
     </header>
