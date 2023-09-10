@@ -234,3 +234,21 @@
     transform: none;
   }
 }
+
+@media only screen and (max-width: 696px) {
+  .test {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgb(var(--rgbBackground));
+    height: 6rem;
+    z-index: 0;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .test {
+    height: 5rem;
+  }
+}

@@ -25,8 +25,10 @@ const ProfileText = ({ visible, titleId }) => (
       <Link href="https://tkmkt.com/">TurnKey Marketing</Link>. I’m a self-driven, self-taught 
       Full Stack Software Developer and aspiring Back-End Software Developer/DevOps Engineer 
       that has worked with various languages, frameworks, databases, libraries, and other technologies to 
-      create efficient, scalable products.  If you’re interested in hiring an ever-growing software engineer 
-      to help build effective and resilient applications, feel free to{' '}<Link href='/contact/'>contact me</Link>.
+      create efficient, scalable products. You can check out more of my professional experience <Link href='/experience/'>here</Link>. 
+      If you’re interested in hiring an ever-growing software engineer to help build effective and resilient 
+      applications, feel free to check out my{' '}<Link href="/pdfs/chase-wheeler-resume.pdf" download="chase-wheeler-resume.pdf" target="_blank">resume</Link>
+      {' '}or{' '}<Link href='/contact/'>contact me</Link>.
     </Text>
     <Text className={styles.description} data-visible={visible} size="l" as="p">
     I’ve spent a lot of my free time developing and reinforcing my Golang and JavaScript skills. I’ve worked on 
