@@ -1,14 +1,16 @@
-import gamestackTexture2Large from 'assets/gamestack-list-large.jpg';
+import gamestackTexture2Large from 'assets/350F-web.png';
 import gamestackTexture2Placeholder from 'assets/gamestack-list-placeholder.jpg';
-import gamestackTexture2 from 'assets/gamestack-list.jpg';
-import gamestackTextureLarge from 'assets/gamestack-login-large.jpg';
+import gamestackTexture2 from 'assets/350F-web.png';
+import gamestackTextureLarge from 'assets/grecale-web.png';
 import gamestackTexturePlaceholder from 'assets/gamestack-login-placeholder.jpg';
-import gamestackTexture from 'assets/gamestack-login.jpg';
+import gamestackTexture from 'assets/grecale-web.png';
 import sliceTextureLarge from 'assets/slice-app-large.jpg';
 import sliceTexturePlaceholder from 'assets/slice-app-placeholder.jpg';
 import sliceTexture from 'assets/slice-app.jpg';
 import sprTextureLarge from 'assets/spr-lesson-builder-dark-large.jpg';
 import sprTexturePlaceholder from 'assets/spr-lesson-builder-dark-placeholder.jpg';
+import experienceImg from 'assets/resume.png';
+import experienceImgLg from 'assets/resume.png';
 import sprTexture from 'assets/spr-lesson-builder-dark.jpg';
 import { Footer } from 'components/Footer';
 import { Meta } from 'components/Meta';
@@ -27,10 +29,11 @@ export const Home = () => {
   const projectOne = useRef();
   const projectTwo = useRef();
   const projectThree = useRef();
+  const projectFour = useRef();
   const details = useRef();
 
   useEffect(() => {
-    const sections = [intro, projectOne, projectTwo, projectThree, details];
+    const sections = [intro, projectOne, projectTwo, projectThree, projectFour, details];
 
     const sectionObserver = new IntersectionObserver(
       (entries, observer) => {
@@ -105,10 +108,10 @@ export const Home = () => {
         sectionRef={projectTwo}
         visible={visibleSections.includes(projectTwo.current)}
         index={2}
-        title="Responsive websites"
+        title="Responsive Websites"
         description="Websites designed and built with various frameworks that look great on both PC and mobile devices."
         buttonText="View website"
-        buttonLink="https://chase-wheeler-portfolio.netlify.app"
+        buttonLink="https://www.maseratiofpuentehills.com/the-all-new-2023-grecale/"
         model={{
           type: 'phone',
           alt: 'App login screen',
@@ -132,13 +135,33 @@ export const Home = () => {
         title="JavaScript 3D Rotating Cube"
         description="This is a small side project that rotates a 3D cube over a 2D canvas in JavaScript using math concepts."
         buttonText="View project"
-        buttonLink="https://github.com/Sneaky1000/rotating-cube" // Replace with /projects/slice later
+        buttonLink="https://github.com/Sneaky1000/rotating-cube" // To-do: Replace with /projects/slice later
         model={{
           type: 'laptop',
           alt: 'A rotating 3D cube over a 2D canvas made with JavaScript',
           textures: [
             {
               srcSet: [sliceTexture, sliceTextureLarge],
+              placeholder: sliceTexturePlaceholder,
+            },
+          ],
+        }}
+      />
+      <ProjectSummary
+        id="experience"
+        sectionRef={projectFour}
+        visible={visibleSections.includes(projectFour.current)}
+        index={'💼'}
+        title="My Professional Experience"
+        description="You can explore my comprehensive professional background and gain insight into my portfolio of career-related projects/achievements here."
+        buttonText="View Experience"
+        buttonLink="/experience/"
+        model={{
+          type: 'laptop',
+          alt: 'An snippet of my professional work experience at TurnKey Marketing',
+          textures: [
+            {
+              srcSet: [experienceImg, experienceImgLg],
               placeholder: sliceTexturePlaceholder,
             },
           ],

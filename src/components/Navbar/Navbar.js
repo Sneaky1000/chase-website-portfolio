@@ -141,6 +141,7 @@ export const Navbar = () => {
 
   return (
     <header className={styles.navbar} ref={headerRef}>
+      <div className={styles.test}></div>
       <RouterLink href={route === '/' ? '/#intro' : '/'} scroll={false}>
         <a
           data-navbar-item
