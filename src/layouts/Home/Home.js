@@ -7,8 +7,6 @@ import gamestackTexture from 'assets/grecale-web.png';
 import sliceTextureLarge from 'assets/slice-app-large.jpg';
 import sliceTexturePlaceholder from 'assets/slice-app-placeholder.jpg';
 import sliceTexture from 'assets/slice-app.jpg';
-import sprTextureLarge from 'assets/spr-lesson-builder-dark-large.jpg';
-import sprTexturePlaceholder from 'assets/spr-lesson-builder-dark-placeholder.jpg';
 import experienceImg from 'assets/resume.png';
 import experienceImgLg from 'assets/resume.png';
 import sprTexture from 'assets/spr-lesson-builder-dark.jpg';
@@ -96,8 +94,8 @@ export const Home = () => {
           alt: 'Autonomous car project made with JavaScript',
           textures: [
             {
-              srcSet: [sprTexture, sprTextureLarge],
-              placeholder: sprTexturePlaceholder,
+              srcSet: [sprTexture, sprTexture],
+              placeholder: sprTexture,
             },
           ],
         }}
