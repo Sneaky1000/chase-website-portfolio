@@ -27,3 +27,5 @@ To create a production build:
 ```bash
 npm run build
 ```
+
+* I recommend deploying with either GitHub Pages or AWS
