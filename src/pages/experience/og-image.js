@@ -11,27 +11,34 @@ export async function generateOgImage(props) {
   )}`;
 
   const hash = createHash('md5').update(url).digest('hex');
-  const ogImageDir = path.join(process.cwd(), `public/og`);
+  const ogImageDir = path.join(process.cwd(), 'public/og');
   const imageName = `${hash}.png`;
-  const imagePath = `${ogImageDir}/${imageName}`;
+  const imagePath = path.join(ogImageDir, imageName);
   const publicPath = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/og/${imageName}`;
 
   try {
     fs.statSync(imagePath);
     return publicPath;
   } catch (error) {
-    // file does not exists, so we create it
+    // File does not exist yet, continue.
   }
 
-  const browser = await puppeteer.launch({ headless: true });
-  const page = await browser.newPage();
-  await page.setViewport({ width: 1200, height: 630 });
-  await page.goto(url, { waitUntil: 'networkidle0' });
-  const buffer = await page.screenshot();
-  await browser.close();
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  });
 
-  fs.mkdirSync(ogImageDir, { recursive: true });
-  fs.writeFileSync(imagePath, buffer);
+  try {
+    const page = await browser.newPage();
+    await page.setViewport({ width: 1200, height: 630 });
+    await page.goto(url, { waitUntil: 'networkidle0' });
+    const buffer = await page.screenshot();
 
-  return publicPath;
+    fs.mkdirSync(ogImageDir, { recursive: true });
+    fs.writeFileSync(imagePath, buffer);
+
+    return publicPath;
+  } finally {
+    await browser.close();
+  }
 }
