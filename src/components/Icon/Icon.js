@@ -14,7 +14,7 @@ import Menu from './svg/menu.svg';
 import Pause from './svg/pause.svg';
 import Play from './svg/play.svg';
 import Send from './svg/send.svg';
-import Twitter from './svg/twitter.svg';
+import Twitter from './svg/x.svg';
 
 export const icons = {
   arrowLeft: ArrowLeft,

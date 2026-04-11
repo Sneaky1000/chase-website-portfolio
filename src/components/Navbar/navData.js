@@ -20,7 +20,7 @@ export const navLinks = [
 export const socialLinks = [
   {
     label: 'Twitter',
-    url: 'https://twitter.com/Sneaky_1000',
+    url: 'https://x.com/Sneaky_1000',
     icon: 'twitter',
   },
   {

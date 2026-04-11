@@ -4,9 +4,11 @@ import gamestackTexture2 from 'assets/350F-web.png';
 import gamestackTextureLarge from 'assets/grecale-web.png';
 import gamestackTexturePlaceholder from 'assets/gamestack-login-placeholder.jpg';
 import gamestackTexture from 'assets/grecale-web.png';
-import sliceTextureLarge from 'assets/slice-app-large.jpg';
+import sliceTextureLarge from 'assets/pi-3by2.jpeg';
 import sliceTexturePlaceholder from 'assets/slice-app-placeholder.jpg';
-import sliceTexture from 'assets/slice-app.jpg';
+import sliceTexture from 'assets/pi-16by9.jpeg';
+// import questionTexture from 'assets/redQ-3by2.jpeg';
+// import questionTextureLg from 'assets/redQ-og.png';
 import experienceImg from 'assets/resume.png';
 import experienceImgLg from 'assets/resume.png';
 import sprTexture from 'assets/spr-lesson-builder-dark.jpg';
@@ -20,6 +22,8 @@ import styles from './Home.module.css';
 
 const disciplines = ['Engineer', 'Prototyper', 'Designer', 'Modder'];
 
+// IMPORTANT TO-DO: Add back section 4 when the Aerospace Project is ready. Until then, leave that code commented out.
+
 export const Home = () => {
   const [visibleSections, setVisibleSections] = useState([]);
   const [scrollIndicatorHidden, setScrollIndicatorHidden] = useState(false);
@@ -27,11 +31,12 @@ export const Home = () => {
   const projectOne = useRef();
   const projectTwo = useRef();
   const projectThree = useRef();
-  const projectFour = useRef();
+  // const projectFour = useRef();
+  const projectFive = useRef();
   const details = useRef();
 
   useEffect(() => {
-    const sections = [intro, projectOne, projectTwo, projectThree, projectFour, details];
+    const sections = [intro, projectOne, projectTwo, projectThree, projectFive, details];
 
     const sectionObserver = new IntersectionObserver(
       (entries, observer) => {
@@ -130,13 +135,13 @@ export const Home = () => {
         sectionRef={projectThree}
         visible={visibleSections.includes(projectThree.current)}
         index={3}
-        title="JavaScript 3D Rotating Cube"
-        description="This is a small side project that rotates a 3D cube over a 2D canvas in JavaScript using math concepts."
+        title="Mathmatical Concept Visualizations"
+        description="This is one of many side projects that visualizes math formulas/concepts (Image is of Pi in Python)."
         buttonText="View project"
-        buttonLink="https://github.com/Sneaky1000/rotating-cube" // To-do: Replace with /projects/slice later
+        buttonLink="https://github.com/Sneaky1000/pi-in-python" // To-do: Replace with /projects/slice later
         model={{
           type: 'laptop',
-          alt: 'A rotating 3D cube over a 2D canvas made with JavaScript',
+          alt: 'Pi visualization in Python',
           textures: [
             {
               srcSet: [sliceTexture, sliceTextureLarge],
@@ -145,10 +150,30 @@ export const Home = () => {
           ],
         }}
       />
-      <ProjectSummary
-        id="experience"
+      {/* <ProjectSummary
+        id="project-4"
         sectionRef={projectFour}
         visible={visibleSections.includes(projectFour.current)}
+        index={3}
+        title="Interested in more of my projects?"
+        description="This link will take you to a sneak peek at some projects I'm currently working on."
+        buttonText="View More"
+        buttonLink="/projects/aerospace-project"
+        model={{
+          type: 'laptop',
+          alt: 'See more projects',
+          textures: [
+            {
+              srcSet: [questionTexture, questionTextureLg],
+              placeholder: sliceTexturePlaceholder,
+            },
+          ],
+        }}
+      /> */}
+      <ProjectSummary
+        id="experience"
+        sectionRef={projectFive}
+        visible={visibleSections.includes(projectFive.current)}
         index={'💼'}
         title="My Professional Experience"
         description="You can explore my comprehensive professional background and gain insight into my portfolio of career-related projects/achievements here."
@@ -156,7 +181,7 @@ export const Home = () => {
         buttonLink="/experience/"
         model={{
           type: 'laptop',
-          alt: 'An snippet of my professional work experience at TurnKey Marketing',
+          alt: 'A resume displaying my skills, work experience, projects, and skills',
           textures: [
             {
               srcSet: [experienceImg, experienceImgLg],

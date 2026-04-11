@@ -27,13 +27,24 @@ import {
   ACESFilmicToneMapping,
   AmbientLight,
   AnimationMixer,
+  BoxGeometry,
+  BufferGeometry,
   Clock,
   DirectionalLight,
+  Float32BufferAttribute,
+  Group,
+  Line,
+  LineBasicMaterial,
   LoopOnce,
+  Mesh,
+  MeshStandardMaterial,
   PMREMGenerator,
   PerspectiveCamera,
+  Points,
+  PointsMaterial,
   Raycaster,
   Scene,
+  SphereGeometry,
   Sprite,
   Vector2,
   Vector3,
@@ -83,6 +94,197 @@ const isEqualPosition = (position1, position2) => {
     round(position1?.y) === round(position2?.y) &&
     round(position1?.z) === round(position2?.z)
   );
+};
+
+const randomBetween = (min, max) => Math.random() * (max - min) + min;
+
+const createStars = (count = 1400, spread = 18) => {
+  const geometry = new BufferGeometry();
+  const positions = [];
+
+  for (let i = 0; i < count; i += 1) {
+    positions.push(
+      randomBetween(-spread, spread),
+      randomBetween(-spread, spread),
+      randomBetween(-spread, spread)
+    );
+  }
+
+  geometry.setAttribute('position', new Float32BufferAttribute(positions, 3));
+
+  const material = new PointsMaterial({
+    size: 0.04,
+    sizeAttenuation: true,
+    transparent: true,
+    opacity: 0.9,
+  });
+
+  return new Points(geometry, material);
+};
+
+const createOrbitRing = radius => {
+  const points = [];
+
+  for (let i = 0; i <= 96; i += 1) {
+    const angle = (i / 96) * Math.PI * 2;
+    points.push(new Vector3(Math.cos(angle) * radius, 0, Math.sin(angle) * radius));
+  }
+
+  const geometry = new BufferGeometry().setFromPoints(points);
+  const material = new LineBasicMaterial({
+    transparent: true,
+    opacity: 0.14,
+  });
+
+  return new Line(geometry, material);
+};
+
+const createSatelliteMesh = () => {
+  const group = new Group();
+
+  const bodyMaterial = new MeshStandardMaterial({
+    metalness: 0.95,
+    roughness: 0.28,
+    emissive: 0x101214,
+  });
+
+  const panelMaterial = new MeshStandardMaterial({
+    metalness: 0.55,
+    roughness: 0.45,
+    emissive: 0x0a1424,
+  });
+
+  const frameMaterial = new MeshStandardMaterial({
+    metalness: 0.9,
+    roughness: 0.35,
+    emissive: 0x0a0a0a,
+  });
+
+  const dishMaterial = new MeshStandardMaterial({
+    metalness: 0.85,
+    roughness: 0.3,
+    emissive: 0x111111,
+  });
+
+  const body = new Mesh(new BoxGeometry(0.085, 0.055, 0.055), bodyMaterial);
+
+  const bodyTop = new Mesh(new BoxGeometry(0.05, 0.02, 0.05), frameMaterial);
+  bodyTop.position.y = 0.04;
+
+  const mast = new Mesh(new BoxGeometry(0.012, 0.09, 0.012), frameMaterial);
+  mast.position.y = 0.085;
+
+  const topAntenna = new Mesh(new SphereGeometry(0.012, 12, 12), frameMaterial);
+  topAntenna.position.y = 0.14;
+
+  const dish = new Mesh(
+    new SphereGeometry(0.045, 24, 24, 0, Math.PI * 2, 0, Math.PI * 0.35),
+    dishMaterial
+  );
+
+  dish.rotation.x = -Math.PI / 2;
+  dish.position.set(0.055, 0.01, 0);
+
+  const dishArm = new Mesh(new BoxGeometry(0.03, 0.006, 0.006), frameMaterial);
+  dishArm.position.set(0.035, 0.01, 0);
+
+  const panelLeft = new Mesh(new BoxGeometry(0.16, 0.06, 0.004), panelMaterial);
+  const panelRight = new Mesh(new BoxGeometry(0.16, 0.06, 0.004), panelMaterial);
+
+  panelLeft.position.x = -0.16;
+  panelRight.position.x = 0.16;
+
+  const panelLeftFrame = new Mesh(new BoxGeometry(0.012, 0.012, 0.012), frameMaterial);
+  const panelRightFrame = new Mesh(new BoxGeometry(0.012, 0.012, 0.012), frameMaterial);
+
+  panelLeftFrame.position.x = -0.09;
+  panelRightFrame.position.x = 0.09;
+
+  const panelLeftStrut = new Mesh(new BoxGeometry(0.07, 0.008, 0.008), frameMaterial);
+  const panelRightStrut = new Mesh(new BoxGeometry(0.07, 0.008, 0.008), frameMaterial);
+
+  panelLeftStrut.position.x = -0.085;
+  panelRightStrut.position.x = 0.085;
+
+  group.add(
+    body,
+    bodyTop,
+    mast,
+    topAntenna,
+    dish,
+    dishArm,
+    panelLeft,
+    panelRight,
+    panelLeftFrame,
+    panelRightFrame,
+    panelLeftStrut,
+    panelRightStrut
+  );
+
+  return group;
+};
+
+const createAsteroidGeometry = radius => {
+  const geometry = new SphereGeometry(radius, 20, 20);
+  const position = geometry.attributes.position;
+  const vertex = new Vector3();
+
+  const seedA = randomBetween(0.75, 1.35);
+  const seedB = randomBetween(0.75, 1.35);
+  const seedC = randomBetween(0.75, 1.35);
+  const craterBias = randomBetween(0.015, 0.04);
+
+  for (let i = 0; i < position.count; i += 1) {
+    vertex.fromBufferAttribute(position, i);
+
+    const normal = vertex.clone().normalize();
+
+    const lumpy =
+      Math.sin(normal.x * 5.1 * seedA) *
+      Math.cos(normal.y * 4.7 * seedB) *
+      Math.sin(normal.z * 5.4 * seedC) *
+      0.08;
+
+    const broad =
+      Math.sin((normal.x + normal.y) * 2.8 * seedB) *
+      Math.cos((normal.z - normal.x) * 3.2 * seedC) *
+      0.05;
+
+    const pocket =
+      Math.sin(normal.x * 11.0 + seedA) *
+      Math.sin(normal.y * 9.0 + seedB) *
+      Math.cos(normal.z * 10.0 + seedC) *
+      craterBias;
+
+    const displacement = 1 + lumpy + broad - Math.max(0, pocket);
+
+    vertex.multiplyScalar(displacement);
+    position.setXYZ(i, vertex.x, vertex.y, vertex.z);
+  }
+
+  position.needsUpdate = true;
+  geometry.computeVertexNormals();
+
+  return geometry;
+};
+
+const createAsteroidMesh = () => {
+  const radius = randomBetween(0.018, 0.038);
+  const geometry = createAsteroidGeometry(radius);
+  const material = new MeshStandardMaterial({
+    roughness: 0.96,
+    metalness: 0.03,
+  });
+
+  const mesh = new Mesh(geometry, material);
+
+  mesh.scale.set(
+    randomBetween(0.94, 1.12),
+    randomBetween(0.9, 1.1),
+    randomBetween(0.94, 1.14)
+  );
+
+  return mesh;
 };
 
 const cameraSpringConfig = {
@@ -141,6 +343,10 @@ export const Earth = ({
   const envMap = useRef();
   const contentAdded = useRef();
   const mounted = useRef();
+  const starsGroup = useRef();
+  const satellitesGroup = useRef();
+  const asteroidsGroup = useRef();
+  const orbitalObjects = useRef([]);
   const { width: windowWidth, height: windowHeight } = useWindowSize();
   const reduceMotion = useReducedMotion();
   const cameraXSpring = useSpring(0, cameraSpringConfig);
@@ -159,14 +365,45 @@ export const Earth = ({
 
     animationFrame.current = requestAnimationFrame(renderFrame);
     const delta = clock.current.getDelta();
-    mixer.current.update(delta);
+
+    if (mixer.current) {
+      mixer.current.update(delta);
+    }
+
+    orbitalObjects.current.forEach(item => {
+      item.angle += delta * item.speed;
+
+      item.mesh.position.x = Math.cos(item.angle) * item.radius;
+      item.mesh.position.z = Math.sin(item.angle) * item.radius;
+      item.mesh.position.y = item.yOffset;
+
+      item.mesh.rotation.x += item.spinX;
+      item.mesh.rotation.y += item.spinY;
+
+      if (item.type === 'satellite') {
+        item.mesh.lookAt(0, 0, 0);
+        item.mesh.rotation.z += item.rollOffset;
+      }
+    });
+
+    if (starsGroup.current) {
+      starsGroup.current.rotation.y += delta * 0.01;
+    }
+
+    if (satellitesGroup.current) {
+      satellitesGroup.current.rotation.y += delta * 0.015;
+    }
+
+    if (asteroidsGroup.current) {
+      asteroidsGroup.current.rotation.y += delta * 0.008;
+    }
+
     controls.current.update();
     renderer.current.render(scene.current, camera.current);
 
-    // Render labels
     labelElements.current.forEach(label => {
-      const { element, position, sprite } = label;
-      const vector = new Vector3(...position);
+      const { element, position: labelPosition, sprite } = label;
+      const vector = new Vector3(...labelPosition);
       const meshDistance = camera.current.position.distanceTo(
         sceneModel.current.position
       );
@@ -217,10 +454,26 @@ export const Earth = ({
     clock.current = new Clock();
     raycaster.current = new Raycaster();
 
-    const ambientLight = new AmbientLight(0x222222, 0.05);
-    const dirLight = new DirectionalLight(0xffffff, 1.5);
-    dirLight.position.set(3, 0, 1);
-    const lights = [ambientLight, dirLight];
+    // const ambientLight = new AmbientLight(0x222222, 0.08);
+    // const dirLight = new DirectionalLight(0xffffff, 1.5);
+    // dirLight.position.set(3, 0, 1);
+
+    
+    // const lights = [ambientLight, dirLight];
+    // lights.forEach(light => scene.current.add(light));
+
+    const ambientLight = new AmbientLight(0xffffff, 0.22);
+
+    const keyLight = new DirectionalLight(0xffffff, 1.35);
+    keyLight.position.set(3, 0, 1);
+
+    const fillLight = new DirectionalLight(0xffffff, 0.55);
+    fillLight.position.set(-2.5, 0.5, -1.5);
+
+    const rimLight = new DirectionalLight(0xffffff, 0.25);
+    rimLight.position.set(0, 2, -2);
+
+    const lights = [ambientLight, keyLight, fillLight, rimLight];
     lights.forEach(light => scene.current.add(light));
 
     controls.current = new OrbitControls(camera.current, canvas.current);
@@ -233,6 +486,7 @@ export const Earth = ({
       mounted.current = false;
       cancelAnimationFrame(animationFrame.current);
 
+      orbitalObjects.current = [];
       removeLights(lights);
       cleanScene(scene.current);
       cleanRenderer(renderer.current);
@@ -285,7 +539,9 @@ export const Earth = ({
     );
 
     const handleChunkChange = (axis, value) => {
-      chunk.position[axis] = value;
+      if (chunk) {
+        chunk.position[axis] = value;
+      }
     };
 
     const unsubscribeChunkX = chunkXSpring.onChange(value =>
@@ -299,7 +555,9 @@ export const Earth = ({
     );
 
     const unsubscribeOpacity = opacitySpring.onChange(value => {
-      atmosphere.material.opacity = value;
+      if (atmosphere?.material) {
+        atmosphere.material.opacity = value;
+      }
     });
 
     return () => {
@@ -325,6 +583,8 @@ export const Earth = ({
   useEffect(() => {
     if (windowWidth <= media.tablet) {
       controls.current.enabled = false;
+    } else if (controls.current) {
+      controls.current.enabled = true;
     }
   }, [windowWidth]);
 
@@ -334,6 +594,85 @@ export const Earth = ({
     const hdrLoader = new HDRCubeTextureLoader();
     const pmremGenerator = new PMREMGenerator(renderer.current);
     pmremGenerator.compileCubemapShader();
+
+    const createSpaceSet = async () => {
+      starsGroup.current = createStars();
+
+      satellitesGroup.current = new Group();
+      asteroidsGroup.current = new Group();
+      orbitalObjects.current = [];
+
+      const orbitRadii = [1.02, 1.32, 1.62];
+
+      orbitRadii.forEach((radius, index) => {
+        const ring = createOrbitRing(radius);
+        ring.rotation.x = Math.PI * 0.28 + index * 0.08;
+        ring.rotation.z = index * 0.35;
+        satellitesGroup.current.add(ring);
+      });
+
+      for (let i = 0; i < 3; i += 1) {
+        const satellite = createSatelliteMesh();
+        satellite.scale.setScalar(0.7);
+        const radius = orbitRadii[i];
+        const angle = (i / 3) * Math.PI * 2;
+        const yOffset = Math.sin(i * 0.65) * 0.18;
+
+        satellite.position.set(
+          Math.cos(angle) * radius,
+          yOffset,
+          Math.sin(angle) * radius
+        );
+
+        satellite.rotation.z = i * 0.8;
+        satellitesGroup.current.add(satellite);
+
+        orbitalObjects.current.push({
+          type: 'satellite',
+          mesh: satellite,
+          radius,
+          angle,
+          speed: 0.18 + i * 0.03,
+          yOffset,
+          spinX: 0.004 + i * 0.001,
+          spinY: 0.006 + i * 0.0015,
+          rollOffset: i * 0.75,
+        });
+      }
+
+      for (let i = 0; i < 42; i += 1) {
+        const asteroid = createAsteroidMesh();
+        const radius = randomBetween(1.95, 2.75);
+        const angle = randomBetween(0, Math.PI * 2);
+        const yOffset = randomBetween(-0.2, 0.2);
+
+        asteroid.position.set(
+          Math.cos(angle) * radius,
+          yOffset,
+          Math.sin(angle) * radius
+        );
+
+        asteroid.rotation.set(
+          randomBetween(0, Math.PI * 2),
+          randomBetween(0, Math.PI * 2),
+          randomBetween(0, Math.PI * 2)
+        );
+
+        asteroidsGroup.current.add(asteroid);
+
+        orbitalObjects.current.push({
+          type: 'asteroid',
+          mesh: asteroid,
+          radius,
+          angle,
+          speed: randomBetween(0.03, 0.08),
+          yOffset,
+          spinX: randomBetween(0.0015, 0.006),
+          spinY: randomBetween(0.002, 0.008),
+          rollOffset: 0,
+        });
+      }
+    };
 
     const loadModel = async () => {
       const gltf = await modelLoader.loadAsync(earthModel);
@@ -346,7 +685,7 @@ export const Earth = ({
       sceneModel.current.traverse(async child => {
         const { material, name } = child;
 
-        if (name === 'Atmosphere') {
+        if (name === 'Atmosphere' && material) {
           material.alphaMap = material.map;
         }
 
@@ -382,7 +721,7 @@ export const Earth = ({
     };
 
     const handleLoad = async () => {
-      await Promise.all([loadBackground(), loadEnv(), loadModel()]);
+      await Promise.all([loadBackground(), loadEnv(), loadModel(), createSpaceSet()]);
 
       sceneModel.current.traverse(({ material }) => {
         if (material) {
@@ -406,13 +745,23 @@ export const Earth = ({
   }, [loaded, position, scale]);
 
   useEffect(() => {
-    // Add models and textures once visible
     if (loaded && !contentAdded.current) {
+      if (starsGroup.current) {
+        scene.current.add(starsGroup.current);
+      }
+
+      if (asteroidsGroup.current) {
+        scene.current.add(asteroidsGroup.current);
+      }
+
+      if (satellitesGroup.current) {
+        scene.current.add(satellitesGroup.current);
+      }
+
       scene.current.add(sceneModel.current);
       contentAdded.current = true;
     }
 
-    // Only animate while visible
     if (loaded && inViewport) {
       setVisible(true);
       renderFrame();
@@ -433,15 +782,20 @@ export const Earth = ({
         element.style.setProperty('--delay', `${label.delay || 0}ms`);
         element.textContent = label.text;
         labelContainer.current.appendChild(element);
+
         const sprite = new Sprite();
+        sprite.scale.set(0.001, 0.001, 0.001); // Quick hack for now...
         sprite.position.set(...label.position);
-        sprite.scale.set(60, 60, 1);
+        // sprite.scale.set(60, 60, 1);
+
         return { element, ...label, sprite };
       });
     }
   }, [labels, loaded]);
 
   useEffect(() => {
+    if (!renderer.current || !camera.current) return;
+
     renderer.current.setSize(windowWidth, windowHeight);
     camera.current.aspect = windowWidth / windowHeight;
     camera.current.updateProjectionMatrix();
@@ -449,21 +803,23 @@ export const Earth = ({
 
   useEffect(() => {
     const currentCanvas = canvas.current;
+    if (!currentCanvas) return;
 
-    // Log readouts for dev in console
     const handleMouseUp = event => {
       const { innerWidth, innerHeight } = window;
-      // Set a camera position property to help with defining camera angles
       const cameraPosition = positionToString(camera.current.position);
       console.info({ cameraPosition });
 
-      // Set a surface position to help with defining annotations
       mouse.current = new Vector2(
         (event.clientX / innerWidth) * 2 - 1,
         -(event.clientY / innerHeight) * 2 + 1
       );
+
       raycaster.current.setFromCamera(mouse.current, camera.current);
-      const intersects = raycaster.current.intersectObjects(scene.current.children, true);
+      const earthMesh = getChild('EarthFull', sceneModel.current);
+      const intersects = earthMesh
+        ? raycaster.current.intersectObject(earthMesh, true)
+        : [];
 
       if (intersects.length > 0) {
         const clickPosition = positionToString(intersects[0].point);
@@ -481,7 +837,7 @@ export const Earth = ({
   }, []);
 
   const handleScroll = useCallback(() => {
-    if (!container.current) return;
+    if (!container.current || !sceneModel.current) return;
 
     const { offsetTop } = container.current;
     const { innerHeight } = window;
@@ -490,18 +846,17 @@ export const Earth = ({
     let prevTarget;
 
     const updateMeshes = index => {
-      const visibleMeshes = sectionRefs.current[index].meshes;
+      const visibleMeshes = sectionRefs.current[index]?.meshes;
+      const chunk = getChild('Chunk', sceneModel.current);
 
       sceneModel.current.traverse(child => {
         const { name } = child;
-        const chunk = getChild('Chunk', sceneModel.current);
         const isVisible = visibleMeshes?.includes(name);
         const isHidden = hideMeshes?.includes(name);
 
         if (isVisible) {
           if (name === 'Atmosphere') {
             child.visible = true;
-
             opacitySpring.set(1);
           } else if (name === 'Chunk') {
             const chunkTarget = new Vector3(-0.4, 0.4, 0.4);
@@ -515,7 +870,7 @@ export const Earth = ({
               chunkYSpring.set(chunkTarget.y);
               chunkZSpring.set(chunkTarget.z);
             }
-          } else if (name === 'EarthFull' && chunk.visible) {
+          } else if (name === 'EarthFull' && chunk?.visible) {
             child.visible = false;
           } else {
             child.visible = true;
@@ -526,14 +881,14 @@ export const Earth = ({
           } else if (name === 'Chunk') {
             const chunkTarget = new Vector3(0, 0, 0);
 
-            if (isEqualPosition(chunkTarget, chunk.position)) {
+            if (chunk && isEqualPosition(chunkTarget, chunk.position)) {
               child.visible = false;
             }
 
             chunkXSpring.set(chunkTarget.x);
             chunkYSpring.set(chunkTarget.y);
             chunkZSpring.set(chunkTarget.z);
-          } else if (name === 'EarthPartial' && chunk.visible) {
+          } else if (name === 'EarthPartial' && chunk?.visible) {
             child.visible = true;
           } else {
             child.visible = false;
@@ -543,27 +898,31 @@ export const Earth = ({
     };
 
     const updateAnimation = index => {
-      const sectionAnimations = sectionRefs.current[index].animations;
+      const sectionAnimations = sectionRefs.current[index]?.animations || [];
 
-      if (reduceMotion) return;
+      if (reduceMotion || !animations.current || !mixer.current) return;
 
-      animations.current.forEach((clip, index) => {
-        if (!sectionAnimations.find(section => section.includes(index.toString()))) {
+      animations.current.forEach((clip, clipIndex) => {
+        if (!sectionAnimations.find(section => section.includes(clipIndex.toString()))) {
           const animation = mixer.current.clipAction(clip);
           animation.reset().stop();
         }
       });
 
-      if (animations.current.length && sectionRefs.current[index].animations) {
+      if (animations.current.length && sectionAnimations.length) {
         sectionAnimations.forEach(animItem => {
           const values = animItem.split(':');
           const clip = animations.current[Number(values[0])];
+
+          if (!clip) return;
+
           const animation = mixer.current.clipAction(clip);
 
           if (!values[1] || values[1] !== 'loop') {
             animation.clampWhenFinished = true;
             animation.loop = LoopOnce;
           }
+
           animation.play();
         });
       }
@@ -577,10 +936,11 @@ export const Earth = ({
         }
       });
 
-      const sectionLabels = sectionRefs.current[index].labels;
+      const sectionLabels = sectionRefs.current[index]?.labels || [];
 
       sectionLabels.forEach(label => {
         const matches = labelElements.current.filter(item => item.text === label);
+
         matches.forEach(match => {
           match.element.dataset.hidden = false;
           match.element.setAttribute('aria-hidden', false);
@@ -649,7 +1009,7 @@ export const Earth = ({
     return () => {
       window.removeEventListener('scroll', throttledScroll);
     };
-  }, [handleScroll, inViewport, loaded, opacitySpring]);
+  }, [handleScroll, inViewport, loaded]);
 
   const registerSection = useCallback(section => {
     sectionRefs.current = [...sectionRefs.current, section];
@@ -678,8 +1038,8 @@ export const Earth = ({
           in={!loaded && loaderVisible}
           timeout={msToNum(tokens.base.durationL)}
         >
-          {visible => (
-            <Section className={styles.loader} data-visible={visible}>
+          {transitionVisible => (
+            <Section className={styles.loader} data-visible={transitionVisible}>
               <Loader />
             </Section>
           )}
