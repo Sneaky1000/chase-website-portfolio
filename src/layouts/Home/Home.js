@@ -20,7 +20,7 @@ import { ProjectSummary } from 'layouts/Home/ProjectSummary';
 import { useEffect, useRef, useState } from 'react';
 import styles from './Home.module.css';
 
-const disciplines = ['Engineer', 'Prototyper', 'Designer', 'Modder'];
+const disciplines = ['Engineer', 'Architect', 'Innovator'];
 
 // IMPORTANT TO-DO: Add back section 4 when the Aerospace Project is ready. Until then, leave that code commented out.
 
