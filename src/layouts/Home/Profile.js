@@ -64,8 +64,10 @@ export const Profile = ({ id, visible, sectionRef }) => {
       <Transition in={visible || focused} timeout={0}>
         {visible => (
           <div className={styles.content}>
-            <div className={styles.column}>
-              <ProfileText visible={visible} titleId={titleId} />
+            <div className={`${styles.column} ${styles.textColumn}`}>
+              <div className={styles.textContent}>
+                <ProfileText visible={visible} titleId={titleId} />
+              </div>
               <Button
                 secondary
                 className={styles.button}
@@ -76,7 +78,7 @@ export const Profile = ({ id, visible, sectionRef }) => {
                 Send me a message
               </Button>
             </div>
-            <div className={styles.column}>
+            <div className={`${styles.column} ${styles.mediaColumn}`}>
               <div className={styles.tag} aria-hidden>
                 <Divider
                   notchWidth="64px"
