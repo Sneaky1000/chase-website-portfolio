@@ -20,22 +20,28 @@ const ProfileText = ({ visible, titleId }) => (
     <Heading className={styles.title} data-visible={visible} level={3} id={titleId}>
       <DecoderText text="Hello there" start={visible} delay={500} />
     </Heading>
+
     <Text className={styles.description} data-visible={visible} size="l" as="p">
-      Hi, I’m Chase. I currently live in California working as a full stack developer at{' '}
-      <Link href="https://tkmkt.com/">TurnKey Marketing</Link>. I’m a self-driven, self-taught 
-      Full Stack Software Developer and aspiring Back-End Software Developer/DevOps Engineer 
-      that has worked with various languages, frameworks, databases, libraries, and other technologies to 
-      create efficient, scalable products. You can check out more of my professional experience <Link href='/experience/'>here</Link>. 
-      If you’re interested in hiring an ever-growing software engineer to help build effective and resilient 
-      applications, feel free to check out my{' '}<Link href="/pdfs/chase-wheeler-resume.pdf" download="chase-wheeler-resume.pdf" target="_blank">resume</Link>
-      {' '}or{' '}<Link href='/contact/'>contact me</Link>.
+      Hi, I’m Chase! I currently live in Colorado working as a Senior Software Engineer at{' '}
+      <Link href="https://tkmkt.com/">TurnKey Marketing</Link>. I focus on building scalable, data-driven systems and continually 
+      expanding my expertise across backend architecture, distributed systems, and performance-focused applications. You can check 
+      out more of my professional experience <Link href='/experience/'>here</Link>.
     </Text>
+
     <Text className={styles.description} data-visible={visible} size="l" as="p">
-    I’ve spent a lot of my free time developing and reinforcing my Golang and JavaScript skills. I’ve worked on 
-    countless projects—from APIs and bots to responsive websites and full stack applications—in order to hone my 
-    understanding of various languages. More recently, I’ve begun working with Python on my free time and have 
-    been expanding my knowledge in the areas of artificial intelligence, genetic algorithms, neural networks, 
-    and machine learning in general.
+      Outside of my professional work, I focus on system design, backend architecture, and building efficient, scalable solutions. 
+      I regularly work on projects using JavaScript and Go, while expanding into Python for data-driven and AI applications.
+    </Text>
+
+    <Text className={styles.description} data-visible={visible} size="l" as="p">
+      I’m particularly interested in applying software and artificial intelligence to aerospace problems—especially in simulation, 
+      large-scale systems, and intelligent modeling for space-based applications.
+    </Text>
+
+    <Text className={styles.description} data-visible={visible} size="l" as="p">
+      If you’re interested in working with an engineer who is constantly evolving and pushing into new technical domains, feel free to 
+      check out my{' '}<Link href="/pdfs/chase-wheeler-resume.pdf" download="chase-wheeler-resume.pdf" target="_blank">resume</Link>
+      {' '}or{' '}<Link href='/contact/'>contact me</Link>.
     </Text>
   </Fragment>
 );
