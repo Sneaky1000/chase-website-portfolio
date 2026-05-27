@@ -76,7 +76,7 @@ export const Home = () => {
       <Meta
         title="Software Engineer"
         description="Design portfolio of Chase Wheeler — a self-driven, self-taught Full Stack Software Developer 
-        and aspiring Back-end Software Developer/DevOps Engineer that has worked with various languages, frameworks, 
+        and aspiring AI Engineer that has worked with various languages, frameworks, 
         databases, and other technologies to create efficient, scalable products."
       />
       <Intro
